@@ -1,0 +1,12 @@
+bss vs data segment
+scan string
+
+call
+jmp
+jx
+loop
+int
+ret
+int
+iret
+flags

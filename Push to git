@@ -1,7 +1,5 @@
-git init
 git add .
 git commit -m 'First commit'
-git remote add origin https://github.com/tanvirfahim15/CSEDU-3113-MIcroprocessor-and-Assembly-Language-Lab.git
-git remote -v
-git push -f origin master
+git pull origin master
+git push origin master
 

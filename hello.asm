@@ -11,14 +11,13 @@ out_str_fmt: db "%s",10,0
 in_str_fmt:	 db "%s",0
 ;;;;;;;;;;;;;;;;;;;; data segment starts here;;;;;;;;;;;;;;;;;
 
-s1: db "Palindrome",0
-s2: db "Not palindrome",0
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SECTION .bss
 str: resb 100
 arr: resq 100
 ;;;;;;;;;;;;;;;;;;;; section starts bss here;;;;;;;;;;;;;;;;;;
-s: resb 100
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -40,12 +39,33 @@ main:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;define functions here;;;;;;;;;;;;;;;;;;;
 
-
-
+	
+	
 
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;put rax on first rcx elements of arr pointed by rdi
+clear_arr:
+	push rdi
+	push rcx
+	push rax
+	lop_clear_arr:
+		cmp rcx,0
+		je dne_clear_arr
+		
+		mov [rdi],rax
+		add rdi,8
+		
+		sub rcx,1
+		jmp lop_clear_arr
+		
+	dne_clear_arr:
+	pop rax
+	pop rcx
+	pop rdi
+	ret
 
 ;find rax in first rcx elements of arr pointed by rsi
 ;puts 1 on rax if found, 0 otherwise
@@ -328,6 +348,7 @@ put_arr_i:
 	pop rax
 	pop rdx
 	ret
+	
 ;get rsi[rcx] to rax
 get_arr_i:
 	push rbx
@@ -389,15 +410,13 @@ print_arr:
 	ret
 
 
-;scans 64 bit integers into arr pointed by rdi
+;scans rcx 64 bit integers into arr pointed by rdi
 ;puts array size on rax
 ;enter number of elements and then elements
 scan_arr:
 	push rdi
 	push rcx
-	call scan_int
 	push rax
-	mov rcx,rax
 	lop_scan_arr:
 		cmp rcx,0
 		je dne_scan_arr

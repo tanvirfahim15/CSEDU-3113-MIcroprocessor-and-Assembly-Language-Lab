@@ -11,14 +11,14 @@ out_str_fmt: db "%s",10,0
 in_str_fmt:	 db "%s",0
 ;;;;;;;;;;;;;;;;;;;; data segment starts here;;;;;;;;;;;;;;;;;
 
-
-
+s1: db "Palindrome",0
+s2: db "Not palindrome",0
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SECTION .bss
 str: resb 100
 arr: resq 100
 ;;;;;;;;;;;;;;;;;;;; section starts bss here;;;;;;;;;;;;;;;;;;
-
+s: resb 100
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -29,9 +29,6 @@ global main
 main:				
 	push rbp	
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
-
-	
-	
 	
 	
 	
@@ -49,6 +46,35 @@ main:
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;find rax in first rcx elements of arr pointed by rsi
+;puts 1 on rax if found, 0 otherwise
+find_arr:
+	push rbx
+	push rcx
+	push rdx
+	push rsi
+	push rdi
+	mov rbx,0
+	lop_find_arr:
+	cmp rcx,0
+	jz dne_find_arr
+	mov rdx,[rsi]
+	add rsi,8
+	cmp rdx,rax
+	jne nf_find_arr
+	mov rbx,1
+	nf_find_arr:
+	dec rcx
+	jmp lop_find_arr
+	dne_find_arr:
+	mov rax,rbx
+	pop rdi
+	pop rsi
+	pop rdx
+	pop rcx
+	pop rbx
+	ret
 
 ;put 1 on rax if rax even, 0 otherwise
 even_check:
@@ -482,15 +508,14 @@ scan_str:
     pop rcx
     pop rdx
 	ret	
-;print str(string)	
+;print str(string) pointed by rsi	
 print_str:
 	push rdx
 	push rcx
 	push rax
 	push rdi
 	push rsi
-	mov	rdi,out_str_fmt		
-	mov	rsi,str         
+	mov	rdi,out_str_fmt		         
 	mov	rax,0		
     call printf
     pop rsi

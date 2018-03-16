@@ -11,14 +11,14 @@ out_str_fmt: db "%s",10,0
 in_str_fmt:	 db "%s",0
 ;;;;;;;;;;;;;;;;;;;; data segment starts here;;;;;;;;;;;;;;;;;
 
-
-
+s1: db "Palindrome",0
+s2: db "Not palindrome",0
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SECTION .bss
 str: resb 100
 arr: resq 100
 ;;;;;;;;;;;;;;;;;;;; section starts bss here;;;;;;;;;;;;;;;;;;
-
+s: resb 100
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -29,8 +29,66 @@ global main
 main:				
 	push rbp	
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
-
+	call scan_str
+	mov rsi,str
+	mov rdi,s
+	call str_copy
+	mov rsi,s
+	call str_len
+	dec rcx
+	lop:
+	cmp rcx,0
+	jl dne
+	add rsi,rcx
+	mov al,[rsi]
+	cmp al,'Z'
+	jle cap
+	sub al,'a'
+	add al,'A'
+	cap:
+	mov [rsi],al
+	sub rsi,rcx
+	dec rcx
+	jmp lop
+	dne:
 	
+	mov rsi,s
+	call str_len
+	
+	mov rbx,1
+	mov rdx,0
+	dec rcx
+	lop2:
+	cmp rdx,rcx
+	jg dne2
+	
+	add rsi,rdx
+	mov al,[rsi]
+	sub rsi,rdx
+	
+	add rsi,rcx
+	mov ah,[rsi]
+	sub rsi,rcx
+	
+	cmp al,ah
+	je eq
+	mov rbx,0
+	eq:
+	
+	inc rdx
+	dec rcx
+	jmp lop2
+	dne2:
+	
+	cmp rbx,0
+	je np
+	mov rsi,s1
+	call print_str
+	jmp en
+	np:
+	mov rsi,s2
+	call print_str
+	en:
 	
 	
 	
@@ -482,15 +540,14 @@ scan_str:
     pop rcx
     pop rdx
 	ret	
-;print str(string)	
+;print str(string) pointed by rsi	
 print_str:
 	push rdx
 	push rcx
 	push rax
 	push rdi
 	push rsi
-	mov	rdi,out_str_fmt		
-	mov	rsi,str         
+	mov	rdi,out_str_fmt		         
 	mov	rax,0		
     call printf
     pop rsi

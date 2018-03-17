@@ -46,6 +46,84 @@ main:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+;put 1 on rax if rax even, 0 otherwise
+even_check:
+	push rbx
+	push rcx
+	push rdx
+	push rsi
+	push rdi
+	mov rbx,2
+	mov rdx,0
+	idiv rbx
+	cmp rdx,0
+	je evn_even_check
+	mov rax,0
+	jmp end_even_check
+	evn_even_check:
+	mov rax,1
+	end_even_check:
+	pop rdi
+	pop rsi
+	pop rdx
+	pop rcx
+	pop rbx
+	ret
+; puts abs(rax) on rax
+abs_rax:
+	push rbx
+	push rcx
+	push rdx
+	push rsi
+	push rdi
+	cmp rax,0
+	jge abs_dne
+	neg rax
+	abs_dne:
+	pop rdi
+	pop rsi
+	pop rdx
+	pop rcx
+	pop rbx
+	ret
+
+;puts 1 on rax if rax is prime, 0 otherwise
+prime_check:
+	push rbx
+	push rcx
+	push rdx
+	push rsi
+	push rdi
+	mov rbx,1
+	mov rcx ,rax
+	dec rcx
+	lop_prime_check:
+	cmp rcx,1
+	jle dne_prime_check
+	push rax
+	push rdx
+	mov rdx,0
+	idiv rcx
+	cmp rdx,0
+	jne nxt_prime_check
+	mov rbx,0
+	jmp nxt_prime_check
+	nxt_prime_check:
+	pop rdx
+	pop rax
+	dec rcx
+	jmp lop_prime_check
+	dne_prime_check:
+	mov rax,rbx
+	pop rdi
+	pop rsi
+	pop rdx
+	pop rcx
+	pop rbx
+	ret
+
+
 ;put rax on first rcx elements of arr pointed by rdi
 clear_arr:
 	push rdi

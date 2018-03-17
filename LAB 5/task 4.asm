@@ -32,23 +32,23 @@ main:
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
 	call scan_str
 	mov rsi,str
-	mov rdi, s1
-	call str_copy
+	mov rdi, s1	
+	call str_copy	;scan s1
 	call scan_str
 	mov rsi,str
 	mov rdi, s2
-	call str_copy
+	call str_copy	;scan s2
 	
 	mov rsi, s1
 	mov rdi, s2
-	call str_cmp
+	call str_cmp	;check for equal
 	
 	cmp rax,0
 	je ne
-	mov rsi,o1	
+	mov rsi,o1	;if(equal){print "Equal"}
 	jmp en
 	ne:
-	mov rsi,o2
+	mov rsi,o2	;if(!equal){print "Not equal"}
 	en:
 	call print_str
 	

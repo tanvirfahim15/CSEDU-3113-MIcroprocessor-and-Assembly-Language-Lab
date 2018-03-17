@@ -34,23 +34,23 @@ main:
 	mov rdi,ar
 	mov rsi,ar
 	mov rax,0FFFFFFFFh
-	call clear_arr
+	call clear_arr		;clears ar
 	
-	lop:
+	lop:			;while(rcx!=0) {...}
 	cmp rcx,0
 	je dne
 		
-	call scan_int
+	call scan_int		;scan an int
 	mov rbx,rax
 	push rcx
 	mov rcx,10
-	call find_arr
+	call find_arr		;find in ar
 	pop rcx
 	cmp rax,0
 	jne dup
-	mov rax,rbx
+	mov rax,rbx		;if(!duplicate){print proper msg; rcx--;}
 	dec rcx
-	call put_arr_i
+	call put_arr_i		;append to ar
 		push rax
 		push rbx
 		push rcx
@@ -70,7 +70,7 @@ main:
 	inc rcx	
 	dec rcx
 	jmp en
-	dup:
+	dup:			;if(duplicate){print proper msg}
 		push rax
 		push rbx
 		push rcx
@@ -94,7 +94,7 @@ main:
 	
 	mov rcx,10
 	call reverse_arr
-	call print_arr
+	call print_arr		;prints ar
 	
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	

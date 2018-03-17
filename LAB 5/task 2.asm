@@ -29,21 +29,23 @@ global main
 main:				
 	push rbp	
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
-	call scan_str
+	call scan_str	;scans string
 	mov rsi,str
 	mov rdi,s
 	call str_copy
 	mov rsi,s
-	call str_len
+	
+	call str_len	;get string length
 	dec rcx
-	lop:
+	
+	lop:		;iterate through all characters and convert all to uppercase
 	cmp rcx,0
 	jl dne
 	add rsi,rcx
 	mov al,[rsi]
-	cmp al,'Z'
+	cmp al,'Z'	;check lowercase
 	jle cap
-	sub al,'a'
+	sub al,'a'	;convert if uppercase
 	add al,'A'
 	cap:
 	mov [rsi],al
@@ -53,26 +55,27 @@ main:
 	dne:
 	
 	mov rsi,s
-	call str_len
+	call str_len	;gets string length
 	
 	mov rbx,1
 	mov rdx,0
 	dec rcx
-	lop2:
+	
+	lop2:		;while(i<=j){i++;j--;}
 	cmp rdx,rcx
 	jg dne2
 	
 	add rsi,rdx
-	mov al,[rsi]
+	mov al,[rsi]	;get s[i]
 	sub rsi,rdx
 	
 	add rsi,rcx
-	mov ah,[rsi]
+	mov ah,[rsi]	;get s[j]
 	sub rsi,rcx
 	
 	cmp al,ah
 	je eq
-	mov rbx,0
+	mov rbx,0	;if(s[i]!=s[j]) rbx = 0
 	eq:
 	
 	inc rdx
@@ -82,11 +85,11 @@ main:
 	
 	cmp rbx,0
 	je np
-	mov rsi,s1
+	mov rsi,s1	;if(rbx!=0) print "Palindrome"
 	call print_str
 	jmp en
 	np:
-	mov rsi,s2
+	mov rsi,s2	;if(rbx==0) print "Not palindrome"
 	call print_str
 	en:
 	

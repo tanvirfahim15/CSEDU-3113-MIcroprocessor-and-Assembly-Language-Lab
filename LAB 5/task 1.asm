@@ -35,28 +35,31 @@ main:
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
 
 	
-	call scan_int
+	call scan_int		;scan n1
 	inc rax
-	mov [n1],rax
-	call scan_int
+	mov [n1],rax	
+	
+	call scan_int		;scan n2
 	dec rax
-	mov [n2],rax
+	mov [n2],rax	
 
 
 	mov rax,[n1]
 	mov rbx,[n2]
 	mov rcx,0
 	
-	lop:         ;iterate between n1 and n2
+	lop:			;iterate between n1 and n2
 	cmp rax,rbx
 	jg dne
+	
 	push rax
-	call prime_check
+	call prime_check	;checks if prime	
 	mov r9,rax
 	pop rax
 	cmp r9,0
-	je np
-	mov rdi,ar	;append to ar if prime
+	je np			;jump to np for not prime
+	
+	mov rdi,ar		;append to ar if prime
 	call put_arr_i
 	push rax
 	push rbx
@@ -68,19 +71,21 @@ main:
 	mov rdx,0
 	idiv rbx
 	pop rax
-	cmp rdx,0
+	cmp rdx,0		;checks even or odd position
 	je evn
-	add [od],rax
+	add [od],rax		;add to od if odd position
 	jmp end
 	evn:
-	add [ev],rax
+	add [ev],rax		;add to ev if even position
 	end:
 	pop rdx
 	pop rcx
 	pop rbx
 	pop rax
-	inc rcx
+	inc rcx			;increament prime count
+	
 	np:
+	
 	inc rax
 	jmp lop
 	dne:
@@ -88,7 +93,7 @@ main:
 	mov rsi,s1
 	call print_str
 	mov rsi,ar
-	call print_arr
+	call print_arr		;prints ar
 	
 	
 	mov rsi,s2
@@ -96,8 +101,8 @@ main:
 	mov rax,[ev]
 	mov rbx,[od]
 	sub rax,rbx
-	call abs_rax
-	call print_int
+	call abs_rax		;find abs(ev -od)
+	call print_int		;print difference
 	
 	
 	

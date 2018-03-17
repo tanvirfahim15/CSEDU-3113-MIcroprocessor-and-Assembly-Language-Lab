@@ -31,18 +31,19 @@ main:
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
 	
 	
-	call scan_int
+	call scan_int	;scan n
 	dec rax
 	mov rcx,rax
 	
-	lop:
+	lop:		;iterate n times
 	cmp rcx,0
 	jl dne
 	
-	je last_line
+	je last_line	; for last line
+	
 	push rcx
 	dec rcx
-	lop2:
+	lop2:		;prints n-i space on ith line,indexed by zero
 	cmp rcx,0
 	jl dne2
 	call print_sc
@@ -50,39 +51,49 @@ main:
 	jmp lop2
 	dne2:
 	pop rcx
-	call print_st
-	cmp rax,rcx
+	
+	call print_st	;prints one star
+	
+	
+	cmp rax,rcx	;for first line skip printing more spaces and star
 	je dne3
+	
 	push rax
 	push rcx
-	sub rax,rcx
+	sub rax,rcx	;find 2i+1 for ith line
 	dec rax
 	add rax,rax
 	inc rax
-	lop4:
+	
+	lop4:		;prints 2i+1 spaces
 	cmp rax,0
 	je dne4
 	call print_sc
 	dec rax
 	jmp lop4
 	dne4:
-	call print_st
+	
+	call print_st	;print one star
 	pop rcx
 	pop rax
+	
 	dne3:
-	call print_nw
+	
+	
+	call print_nw	;print new line
 	dec rcx
 	jmp lop
 	dne:
 	
 	last_line:
-	add rax,rax
+	add rax,rax 	;find 2n +1
 	inc rax
 	mov rcx,rax
-	lop5:
-	call print_st
+	lop5:		;prints 2n+1 stars
+	call print_st 
 	loop lop5
-	call print_nw
+	
+	call print_nw 	;prints new line
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 	mov rax,0
 	pop rbp

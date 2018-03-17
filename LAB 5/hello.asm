@@ -7,19 +7,18 @@ SECTION .data
 int_in_fmt: db "%ld",0
 int_out_fmt: db "%ld",10,0
 int: dq 0
-out_str_fmt: db "%s",10,0
+out_str_fmt: db "%s",0
 in_str_fmt:	 db "%s",0
 ;;;;;;;;;;;;;;;;;;;; data segment starts here;;;;;;;;;;;;;;;;;
-o1: db "equal",0
-o2: db "Not equal",0
-
+st: db "*",0
+sc: db " ",0
+nw: db 10,0
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SECTION .bss
 str: resb 100
 arr: resq 100
 ;;;;;;;;;;;;;;;;;;;; section starts bss here;;;;;;;;;;;;;;;;;;
-s1: resb 100
-s2: resb 100
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -30,29 +29,60 @@ global main
 main:				
 	push rbp	
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
-	call scan_str
-	mov rsi,str
-	mov rdi, s1
-	call str_copy
-	call scan_str
-	mov rsi,str
-	mov rdi, s2
-	call str_copy
 	
-	mov rsi, s1
-	mov rdi, s2
-	call str_cmp
 	
+	call scan_int
+	dec rax
+	mov rcx,rax
+	
+	lop:
+	cmp rcx,0
+	jl dne
+	
+	je last_line
+	push rcx
+	dec rcx
+	lop2:
+	cmp rcx,0
+	jl dne2
+	call print_sc
+	dec rcx
+	jmp lop2
+	dne2:
+	pop rcx
+	call print_st
+	cmp rax,rcx
+	je dne3
+	push rax
+	push rcx
+	sub rax,rcx
+	dec rax
+	add rax,rax
+	inc rax
+	lop4:
 	cmp rax,0
-	je ne
-	mov rsi,o1	
-	jmp en
-	ne:
-	mov rsi,o2
-	en:
-	call print_str
+	je dne4
+	call print_sc
+	dec rax
+	jmp lop4
+	dne4:
+	call print_st
+	pop rcx
+	pop rax
+	dne3:
+	call print_nw
+	dec rcx
+	jmp lop
+	dne:
 	
-	
+	last_line:
+	add rax,rax
+	inc rax
+	mov rcx,rax
+	lop5:
+	call print_st
+	loop lop5
+	call print_nw
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 	mov rax,0
 	pop rbp
@@ -61,9 +91,55 @@ main:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;define functions here;;;;;;;;;;;;;;;;;;;
 
-	
-	
+print_st:
+	push rax
+	push rbx
+	push rcx
+	push rdx
+	push rsi
+	push rdi
+	mov rsi,st
+	call print_str
+	pop rdi
+	pop rsi
+	pop rdx
+	pop rcx
+	pop rbx
+	pop rax
+	ret
+print_sc:
+	push rax
+	push rbx
+	push rcx
+	push rdx
+	push rsi
+	push rdi
+	mov rsi,sc
+	call print_str
+	pop rdi
+	pop rsi
+	pop rdx
+	pop rcx
+	pop rbx
+	pop rax
+	ret
 
+print_nw:
+	push rax
+	push rbx
+	push rcx
+	push rdx
+	push rsi
+	push rdi
+	mov rsi,nw
+	call print_str
+	pop rdi
+	pop rsi
+	pop rdx
+	pop rcx
+	pop rbx
+	pop rax
+	ret
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -532,7 +608,7 @@ str_len:
 	pop rax
 	ret
 	
-;scan string and put it on str
+;scans string and puts it on str
 scan_str:
 	push rdx
 	push rcx

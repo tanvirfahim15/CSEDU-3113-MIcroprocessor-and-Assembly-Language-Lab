@@ -1,5 +1,6 @@
 extern	printf		
 extern	scanf		
+extern gets
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;nasm -f elf64 hello.asm &&  gcc -o hello  hello.o && ./hello
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -31,6 +32,8 @@ main:
 	
 	
 	
+	
+	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 	mov rax,0
 	pop rbp
@@ -46,6 +49,21 @@ main:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;scan string and put it on rdi
+get_s:
+	push rax
+	push rbx
+	push rcx
+	push rdx
+	push rsi
+	push rdi
+	call gets
+	pop rdi
+	pop rsi
+	pop rdx
+	pop rcx
+	pop rbx
+	pop rax
 
 ;put 1 on rax if rax even, 0 otherwise
 even_check:
@@ -174,89 +192,16 @@ find_arr:
 	pop rbx
 	ret
 
-;put 1 on rax if rax even, 0 otherwise
-even_check:
-	push rbx
-	push rcx
-	push rdx
-	push rsi
-	push rdi
-	mov rbx,2
-	mov rdx,0
-	idiv rbx
-	cmp rdx,0
-	je evn_even_check
-	mov rax,0
-	jmp end_even_check
-	evn_even_check:
-	mov rax,1
-	end_even_check:
-	pop rdi
-	pop rsi
-	pop rdx
-	pop rcx
-	pop rbx
-	ret
-; puts abs(rax) on rax
-abs_rax:
-	push rbx
-	push rcx
-	push rdx
-	push rsi
-	push rdi
-	cmp rax,0
-	jge abs_dne
-	neg rax
-	abs_dne:
-	pop rdi
-	pop rsi
-	pop rdx
-	pop rcx
-	pop rbx
-	ret
 
-;puts 1 on rax if rax is prime, 0 otherwise
-prime_check:
-	push rbx
-	push rcx
-	push rdx
-	push rsi
-	push rdi
-	mov rbx,1
-	mov rcx ,rax
-	dec rcx
-	lop_prime_check:
-	cmp rcx,1
-	jle dne_prime_check
-	push rax
-	push rdx
-	mov rdx,0
-	idiv rcx
-	cmp rdx,0
-	jne nxt_prime_check
-	mov rbx,0
-	jmp nxt_prime_check
-	nxt_prime_check:
-	pop rdx
-	pop rax
-	dec rcx
-	jmp lop_prime_check
-	dne_prime_check:
-	mov rax,rbx
-	pop rdi
-	pop rsi
-	pop rdx
-	pop rcx
-	pop rbx
-	ret
-
+;dependency:sort_arr_dec,reverse_arr
 ;sort first rcx elements of arr pointed by rsi
 ;small to large
 sort_arr:
 	call sort_arr_dec
 	call reverse_arr
 	ret
-	
+
+;dependency:get_arr_i,swap_arr
 ;sort first rcx elements of arr pointed by rsi
 ;large to small
 sort_arr_dec:
@@ -313,6 +258,7 @@ sort_arr_dec:
 	pop rax
 	ret	
 
+;dependency:swap_arr
 ;reverse first rcx element of arr pointed by rsi
 reverse_arr:
 	push rax
@@ -338,7 +284,8 @@ reverse_arr:
 	pop rbx
 	pop rax
 	ret
-
+	
+;dependency:get_arr_i,put_arr_i
 ;swap rsi[rcx],rsi[rdx]
 swap_arr:
 	push rbx
@@ -371,7 +318,8 @@ swap_arr:
 	pop rax
 	pop rbx
 	ret	
-		
+
+;dependency:get_arr_i,put_arr_i
 ;swap rsi[rcx],rdi[rdx]
 swap_arrd:
 	push rbx
@@ -465,7 +413,8 @@ copy_arr:
 	pop rsi
 	pop rcx
 	ret
-
+	
+;dependency:print_int
 ;print rcx elements(64 bit int) pointed by rsi
 print_arr:
 	push rsi
@@ -487,7 +436,7 @@ print_arr:
 	pop rsi
 	ret
 
-
+;dependency:scan_int
 ;scans rcx 64 bit integers into arr pointed by rdi
 ;puts array size on rax
 ;enter number of elements and then elements
@@ -512,6 +461,7 @@ scan_arr:
 	pop rdi
 	ret
 
+;dependency:str_len
 ;compares two strings on rsi and rdi
 ;puts 1 on rax if equal,0 otherwise
 str_cmp:
@@ -546,7 +496,7 @@ str_cmp:
 	pop rcx
 	ret
 
-
+;dependency:str_len
 ;copy string pointed by rsi to rdi
 str_copy:
 	push rcx

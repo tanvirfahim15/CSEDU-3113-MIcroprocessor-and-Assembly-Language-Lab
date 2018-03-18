@@ -17,36 +17,31 @@ SECTION .text
 
 global main		
 main:				
-    push    rbp	
-	
-	
-	mov rcx,3
-Loop:
-	
-	
+	push    rbp	
+
+Loop:				;loop 5 times
 	mov rdi,in_fmt
 	mov rsi,c
 	call scanf
-	mov rax,[c]
+	mov rax,[c]		;scan a number
 	
 	mov rcx,[cnt]
-	mov [arr+8*rcx],rax
-	
+	mov [arr+8*rcx],rax	;save to arr
 	
 	add rcx,1
 	mov [cnt],rcx
-	
 	cmp rcx,5
 	jnz Loop
+	
 	
 	mov rax,[cnt]
 	sub rax,1
 	mov [last],rax
-	
-check:
+				;insertion sort
+check:				;outer loop
 	mov rcx,[last]
 	mov [icnt],rcx
-inner:
+inner:				;inner loop
 	mov rcx,[icnt]
 	mov rax,[arr+8*rcx]
 	sub rcx,1
@@ -54,12 +49,10 @@ inner:
 	cmp rax,rbx
 	jge nswap
 	
-	
-	mov rcx,[icnt]
+	mov rcx,[icnt]		;swap
 	mov [arr+8*rcx],rbx
 	sub rcx,1
 	mov [arr+8*rcx],rax
-
 
 nswap:
 	mov rcx,[icnt]
@@ -75,12 +68,10 @@ nswap:
 	cmp rcx,0
 	jnz check
 
-
-	
 	mov rdi,out_fmt
 	mov rsi,[arr+8*2]
 	mov rax,0
-    call printf
+    	call printf		;print 3rd element in the sorted arr
 
 	pop	rbp		
 

@@ -16,25 +16,23 @@ SECTION .text
 global main		
 main:				
     push    rbp	
-	
-	
-	mov rcx,3
-Loop:
+
+Loop:				;while(counter<20)
 	
 	
 	mov rdi,in_fmt
 	mov rsi,c
-	call scanf
+	call scanf		;scan a int
 	mov rax,[c]
 	
-	add [sum],rax
+	add [sum],rax		;add to sum
 	
 	mov rcx,[cnt]
-	mov [arr+8*rcx],rax
+	mov [arr+8*rcx],rax	;save to arr
 	
 	
 	add rcx,1
-	mov [cnt],rcx
+	mov [cnt],rcx		;increment counter
 	
 	cmp rcx,20
 	jnz Loop
@@ -42,13 +40,12 @@ Loop:
 	mov rax,0
 	mov [cnt],rax
 	
-	mov rdi,out_fmt
+	mov rdi,out_fmt		;print sum
 	mov rsi,[sum]
-	
 	mov rax,0
-    call printf
+    	call printf
 
-print:
+print:				;print arr
 	mov rcx,[cnt]
 	mov rcx,[arr+8*rcx]
 	
@@ -56,7 +53,7 @@ print:
 	mov rsi,rcx
 	
 	mov rax,0
-    call printf
+   	call printf
 	
 	mov rcx,[cnt]
 	add rcx,1

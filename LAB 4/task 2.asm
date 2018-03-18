@@ -16,12 +16,8 @@ global main
 main:				
     push    rbp	
 	
-	
-	mov rcx,3
 Loop:
-	
-	
-	mov rdi,in_fmt
+	mov rdi,in_fmt		;scan 10 numbers
 	mov rsi,c
 	call scanf
 	mov rax,[c]
@@ -41,12 +37,12 @@ Loop:
 
 print:
 	mov rsi,c
-	call scanf
+	call scanf		;scan position
 	mov rax,[c]
 	
 	mov rcx,[arr+8*rax]
 	
-	mov rdi,out_fmt
+	mov rdi,out_fmt		;print arr[position]
 	mov rsi,rcx
 	mov rax,0
 	call printf

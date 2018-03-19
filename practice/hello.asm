@@ -30,13 +30,7 @@ main:
 	push rbp	
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
 	
-	call scan_int
-	mov rcx,rax
-	mov rdi,arr
-	call scan_arr
-	mov rsi,arr
-	call sort_arr
-	call print_arr
+	
 	
 	
 	

@@ -12,13 +12,13 @@ out_str_fmt: db "%s",10,0
 in_str_fmt:	 db "%s",0
 ;;;;;;;;;;;;;;;;;;;; data segment starts here;;;;;;;;;;;;;;;;;
 
-
+ans: dq 0
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SECTION .bss
 str: resb 100
 arr: resq 100
 ;;;;;;;;;;;;;;;;;;;; section starts bss here;;;;;;;;;;;;;;;;;;
-
+arr2: resq 100
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -30,16 +30,34 @@ main:
 	push rbp	
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
 	
-	call scan_int
+	
+	call scan_int	;input n
 	mov rcx,rax
 	mov rdi,arr
-	call scan_arr
+	call scan_arr	;scan n numbers to arr
+	mov rdi,arr2
+	call scan_arr	;scan n numbers to arr2
+	dec rcx
+	
+	dot:
+	cmp rcx,0
+	jl dne
 	mov rsi,arr
-	call sort_arr
-	call print_arr
+	call get_arr_i
+	mov rbx,rax
+	mov rsi,arr2
+	call get_arr_i
+	imul rbx
+	mov rbx,[ans]
+	add rax,rbx
+	mov [ans],rax	;loop through arr and arr2
+			;and multiply corresponding elements and add to answer
+	dec rcx
+	jmp dot
+	dne:
 	
-	
-	
+	mov rax,[ans]
+	call print_int	;print answer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 	mov rax,0
 	pop rbp

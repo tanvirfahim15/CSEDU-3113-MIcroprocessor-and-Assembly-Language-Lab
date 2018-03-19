@@ -16,7 +16,7 @@ in_str_fmt:	 db "%s",0
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SECTION .bss
 str: resb 100
-arr: resq 100
+arr: resq 1000
 ;;;;;;;;;;;;;;;;;;;; section starts bss here;;;;;;;;;;;;;;;;;;
 
 
@@ -29,14 +29,37 @@ global main
 main:				
 	push rbp	
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
+	mov rcx,0
+	mov rdi,arr
+	mov rsi,arr
+	mov rax,0
+	call put_arr_i
+	inc rcx
+	mov rax,1
+	call put_arr_i
+	inc rcx
+	
+	fib:
+	cmp rcx,1000
+	je dne
+	dec rcx
+	call get_arr_i
+	mov rbx,rax
+	dec rcx
+	call get_arr_i
+	add rax,rbx
+	inc rcx
+	inc rcx
+	call put_arr_i
+	inc rcx
+	jmp fib
+	dne:
 	
 	call scan_int
 	mov rcx,rax
-	mov rdi,arr
-	call scan_arr
-	mov rsi,arr
-	call sort_arr
-	call print_arr
+	call get_arr_i
+	call print_int
+	
 	
 	
 	

@@ -27,23 +27,121 @@ SECTION .text
 
 global main		
 main:				
-	push rbp
-	mov rbp,rsp	
+	push rbp	
+	mov rbp,rsp
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
-	
-	
+	call scan_int
+	mov rcx,rax
+	mov rdi,arr
+	call scan_arr
+	call scan_int
+	push rax	;key
+	push 0		;start
+	dec rcx		
+	push rcx	;end
+	push rdi	;arr
+	push 0		;return
+	call binary_search
+	pop rax
+	call print_int
 	
 	
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 	mov rax,0
-	pop rbp
+	leave
 	ret
 	
 
 ;;;;;;;;;;;;;;;;;;;;;;;;define functions here;;;;;;;;;;;;;;;;;;;
 
-
+binary_search:		
+	push rbp	
+	mov rbp,rsp
+	mov rdx,[rbp+48];key
+	mov rbx,[rbp+40];start
+	mov rcx,[rbp+32];end
+	mov rsi,[rbp+24];arr
+	
+	cmp rbx,rcx
+	jne nxt
+	
+	call get_arr_i
+	
+	cmp rdx,rax
+	jne n_set
+	mov QWORD[rbp+16],1
+	
+	n_set:
+	jmp return
+	
+	nxt:
+	
+	push rdx
+	push rbx
+	push rcx
+	
+	mov rax,rbx
+	add rax,rcx
+	mov rcx,2
+	mov rdx,0
+	div rcx
+	mov rcx,rax
+	call get_arr_i
+	
+	pop rcx
+	pop rbx
+	pop rdx
+	
+	cmp rax,rdx
+	jne nxt2
+	mov QWORD[rbp+16],1
+	jmp return
+	
+	nxt2:
+	
+	
+	cmp rax,rdx
+	jg low
+	high:
+	
+	push rdx
+	mov rax,rbx
+	add rax,rcx
+	mov r9,2
+	mov rdx,0
+	div r9
+	inc rax
+	push rax
+	push rcx
+	push rsi
+	push 0
+	call binary_search
+	pop rax
+	mov QWORD[rbp+16],rax
+	jmp return
+	low:
+	
+	push rdx
+	mov rax,rbx
+	add rax,rcx
+	mov r9,2
+	mov rdx,0
+	div r9
+	dec rax
+	push rbx
+	push rax
+	push rsi
+	push 0
+	call binary_search
+	pop rax
+	mov QWORD[rbp+16],rax
+	
+	
+	
+	return:
+	leave
+	ret
 	
 
 

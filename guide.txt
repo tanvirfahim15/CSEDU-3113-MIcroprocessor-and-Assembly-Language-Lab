@@ -1,0 +1,162 @@
+
+;print rax(64 bit int) 	
+print_int:
+
+
+
+
+;scans 64 bit int and puts it on rax
+scan_int:
+
+
+
+	
+;print str(string) pointed by rsi	
+print_str:
+
+
+
+
+
+;scan string and put it on str
+scan_str:
+
+
+
+
+
+;returns string pointed by rsi length on rcx	
+str_len:
+
+
+
+
+;dependency:str_len
+;copy string pointed by rsi to rdi
+str_copy:
+
+
+
+
+
+;dependency:str_len
+;compares two strings on rsi and rdi
+;puts 1 on rax if equal,0 otherwise
+str_cmp:
+
+
+
+
+
+;dependency:scan_int
+;scans rcx 64 bit integers into arr pointed by rdi
+;puts array size on rax
+;enter number of elements and then elements
+scan_arr:
+
+
+
+
+
+;dependency:print_int
+;print rcx elements(64 bit int) pointed by rsi
+print_arr:
+
+
+
+
+
+
+;copy rcx elements(64bit) from arr pointed by rsi to rdi
+copy_arr:
+
+
+
+
+
+
+
+;get rsi[rcx] to rax
+get_arr_i:
+
+
+
+;put rax to rsi[rcx]
+put_arr_i:
+
+
+
+
+;dependency:get_arr_i,put_arr_i
+;swap rsi[rcx],rdi[rdx]
+swap_arrd:
+
+
+
+
+
+;dependency:get_arr_i,put_arr_i
+;swap rsi[rcx],rsi[rdx]
+swap_arr:
+
+
+
+
+;dependency:swap_arr
+;reverse first rcx element of arr pointed by rsi
+reverse_arr:
+
+
+
+
+
+
+;dependency:get_arr_i,swap_arr
+;sort first rcx elements of arr pointed by rsi
+;large to small
+sort_arr_dec:
+
+
+
+
+
+
+;dependency:sort_arr_dec,reverse_arr
+;sort first rcx elements of arr pointed by rsi
+;small to large
+sort_arr:
+
+
+
+
+
+
+;find rax in first rcx elements of arr pointed by rsi
+;puts 1 on rax if found, 0 otherwise
+find_arr:
+
+
+
+;put rax on first rcx elements of arr pointed by rdi
+clear_arr:
+
+
+
+
+;puts 1 on rax if rax is prime, 0 otherwise
+prime_check:
+
+
+; puts abs(rax) on rax
+abs_rax:
+
+
+
+
+;put 1 on rax if rax even, 0 otherwise
+even_check:
+
+
+
+;scan string and put it on rdi
+get_s:

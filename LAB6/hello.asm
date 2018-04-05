@@ -28,21 +28,48 @@ SECTION .text
 global main		
 main:				
 	push rbp	
+	mov rbp,rsp
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
-	
+	call scan_int
+	push rax
+	call scan_int
+	push rax
+	call gcd_
 	
 	
 	
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-	mov rax,0
-	pop rbp
+	leave
 	ret
 	
 
 ;;;;;;;;;;;;;;;;;;;;;;;;define functions here;;;;;;;;;;;;;;;;;;;
 
+gcd_:
+	push rbp
+	mov rbp,rsp
+	mov rax,[rbp+16]
+	mov rbx,[rbp+24]
+	mov rdx,0
+	div rbx
+	cmp rdx,0
+	je print
+	push rdx
+	push rbx
+	call gcd_
+	jmp done
 	
+	
+	print:
+	
+	
+	mov rax,[rbp+24]
+	call print_int
+	
+	done:
+	leave 
+	ret
 	
 
 

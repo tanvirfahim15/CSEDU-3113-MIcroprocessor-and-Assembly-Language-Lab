@@ -3,7 +3,7 @@ extern	scanf
 
 SECTION .data		
 lo: dq 99999
-hi: dq 0
+hi: dq -99999
 loi: dq 0
 hii: dq 0
 cnt:	dq	0	

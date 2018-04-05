@@ -1,0 +1,7 @@
+nasm -f elf64 task\ 1.asm &&  gcc -o hello  task\ 1.o && ./hello
+nasm -f elf64 task\ 2.asm &&  gcc -o hello  task\ 2.o && ./hello
+nasm -f elf64 task\ 3.asm &&  gcc -o hello  task\ 3.o && ./hello
+nasm -f elf64 task\ 4.asm &&  gcc -o hello  task\ 4.o && ./hello
+nasm -f elf64 task\ 5.asm &&  gcc -o hello  task\ 5.o && ./hello
+nasm -f elf64 task\ 6.asm &&  gcc -o hello  task\ 6.o && ./hello
+nasm -f elf64 task\ 7.asm &&  gcc -o hello  task\ 7.o && ./hello

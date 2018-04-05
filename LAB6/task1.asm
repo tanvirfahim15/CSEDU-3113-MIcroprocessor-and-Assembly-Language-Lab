@@ -28,21 +28,31 @@ SECTION .text
 global main		
 main:				
 	push rbp	
+	mov rbp,rsp
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
-	
+	push 20
+	push 10
+	call addition
 	
 	
 	
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
-	mov rax,0
-	pop rbp
+	leave
 	ret
 	
 
 ;;;;;;;;;;;;;;;;;;;;;;;;define functions here;;;;;;;;;;;;;;;;;;;
 
-	
+addition:
+	push rbp
+	mov rbp,rsp
+	mov rax,[rbp+16]
+	mov rbx,[rbp+24]
+	add rax,rbx
+	call print_int
+	pop rbp
+	ret
 	
 
 

@@ -23,6 +23,13 @@ scan_str:
 
 
 
+;scans char and puts it on al
+scan_char:
+
+
+
+;print al(64 bit int) 	
+print_char:
 
 
 ;returns string pointed by rsi length on rcx	

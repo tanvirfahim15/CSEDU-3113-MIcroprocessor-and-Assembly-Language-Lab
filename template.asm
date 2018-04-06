@@ -8,8 +8,11 @@ SECTION .data
 int_in_fmt: db "%ld",0
 int_out_fmt: db "%ld",10,0
 int: dq 0
+char: db 0
 out_str_fmt: db "%s",10,0
 in_str_fmt:	 db "%s",0
+out_char_fmt: db "%c",10,0
+in_char_fmt:	 db "%c",0
 ;;;;;;;;;;;;;;;;;;;; data segment starts here;;;;;;;;;;;;;;;;;
 
 
@@ -600,6 +603,44 @@ print_int:
 	push rdi
 	push rsi
 	mov rdi,int_out_fmt
+	mov rsi,rax
+	mov rax,0
+    call printf
+    pop rsi
+    pop rdi
+    pop rax
+    pop rcx
+    pop rdx
+	ret
+
+;scans char and puts it on al
+scan_char:
+	push rdx
+	push rcx
+	push rax
+	push rdi
+	push rsi
+	mov rdi,in_char_fmt
+	mov rsi,char
+	mov rax,0
+    call scanf
+    pop rsi
+    pop rdi
+    pop rax
+    pop rcx
+    pop rdx
+    mov rax,0
+    mov al,[char]
+	ret
+	
+;print rax(char) 	
+print_char:
+	push rdx
+	push rcx
+	push rax
+	push rdi
+	push rsi
+	mov rdi,out_char_fmt
 	mov rsi,rax
 	mov rax,0
     call printf

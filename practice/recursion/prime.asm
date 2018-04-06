@@ -34,6 +34,14 @@ main:
 	mov rbp,rsp	
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
 	
+	call scan_int
+	push rax
+	dec rax
+	push rax
+	push 0
+	call rprime
+	pop rax
+	call print_int
 	
 	
 	
@@ -45,7 +53,43 @@ main:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;define functions here;;;;;;;;;;;;;;;;;;;
 
-
+rprime:
+	push rbp
+	mov rbp,rsp
+	
+	mov rax,[rbp+32]
+	mov rbx,[rbp+24]
+	
+	cmp rbx,1
+	je return
+	cmp rbx,0
+	je return
+	
+	push rax
+	push rbx
+	mov rdx,0
+	div rbx
+	pop rbx
+	pop rax
+	
+	
+	cmp rdx,0
+	jne nr
+	mov qword[rbp+16],1
+	jmp return
+	
+	nr:
+	push rax
+	dec rbx
+	push rbx
+	push 0
+	call rprime
+	pop rax
+	mov qword[rbp+16],rax
+	
+	return:
+	leave
+	ret
 	
 
 

@@ -35,7 +35,14 @@ main:
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
 	
 	
-	
+	call scan_int
+	push rax
+	call scan_int
+	push rax
+	push 0
+	call rgcd
+	pop rax
+	call print_int
 	
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
@@ -45,8 +52,36 @@ main:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;define functions here;;;;;;;;;;;;;;;;;;;
 
-
+rgcd:
+	push rbp
+	mov rbp,rsp
+	mov rax,[rbp+32]
+	mov rbx,[rbp+24]
 	
+	mov rdx,0
+	div rbx
+	
+	cmp rdx,0
+	jne nr
+	mov [rbp+16],rbx 
+	
+	jmp return
+	nr:
+	
+	mov rax,rbx
+	mov rbx,rdx
+	push rax
+	push rbx
+	push 0
+	call rgcd
+	pop rax
+	mov [rbp+16],rax
+	
+	
+	return:
+	
+	leave 
+	ret
 
 
 

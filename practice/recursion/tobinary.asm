@@ -6,13 +6,14 @@ extern gets
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SECTION .data		
 int_in_fmt: db "%ld",0
-int_out_fmt: db "%ld",10,0
+int_out_fmt: db "%ld",0
 int: dq 0
 char: db 0
 out_str_fmt: db "%s",10,0
 in_str_fmt:	 db "%s",0
 out_char_fmt: db "%c",10,0
 in_char_fmt:	 db "%c",0
+strs: db 0
 ;;;;;;;;;;;;;;;;;;;; data segment starts here;;;;;;;;;;;;;;;;;
 
 
@@ -33,15 +34,11 @@ main:
 	push rbp
 	mov rbp,rsp	
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
-	
 	call scan_int
 	push rax
-	push 1
-	push 0
-	call dec
-	pop rax
-	call print_int
-	
+	call binary
+	mov rsi, strs
+	call print_str
 	
 	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
@@ -51,33 +48,24 @@ main:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;define functions here;;;;;;;;;;;;;;;;;;;
 
-dec: 	
+binary:
 	push rbp
 	mov rbp,rsp
 	
-	mov rax,[rbp+32]
+	mov rax,[rbp+16]
 	cmp rax,0
 	je return
 	
 	mov rdx,0
-	mov rbx,10
+	mov rbx,2
 	div rbx
 	push rdx
 	push rax
-	mov rax,[rbp+24]
-	mov rbx,2
-	mul rbx
-	push rax
-	push 0
-	call dec
-	pop rbx
-	pop rdx
-	pop rdx
-	pop rdx
-	mov rax,[rbp+24]
-	mul rdx
-	add rax,rbx
-	mov qword[rbp+16],rax
+	call binary
+	pop rax
+	pop rax
+	call print_int
+	
 	
 	return:
 	leave

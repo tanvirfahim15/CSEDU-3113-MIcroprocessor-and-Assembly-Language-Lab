@@ -33,14 +33,13 @@ main:
 	push rbp
 	mov rbp,rsp	
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
-	
 	call scan_int
 	push rax
-	push 1
 	push 0
-	call dec
+	call sum_of_n
 	pop rax
 	call print_int
+	
 	
 	
 	
@@ -50,39 +49,27 @@ main:
 	
 
 ;;;;;;;;;;;;;;;;;;;;;;;;define functions here;;;;;;;;;;;;;;;;;;;
-
-dec: 	
+sum_of_n:
 	push rbp
 	mov rbp,rsp
 	
-	mov rax,[rbp+32]
+	mov rax,[rbp+24]
 	cmp rax,0
 	je return
-	
-	mov rdx,0
-	mov rbx,10
-	div rbx
-	push rdx
 	push rax
-	mov rax,[rbp+24]
-	mov rbx,2
-	mul rbx
+	dec rax
 	push rax
 	push 0
-	call dec
+	call sum_of_n
 	pop rbx
-	pop rdx
-	pop rdx
-	pop rdx
-	mov rax,[rbp+24]
-	mul rdx
+	pop rax
+	pop rax
 	add rax,rbx
 	mov qword[rbp+16],rax
-	
+
 	return:
 	leave
 	ret
-	
 
 
 

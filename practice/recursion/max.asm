@@ -33,18 +33,19 @@ main:
 	push rbp
 	mov rbp,rsp	
 ;;;;;;;;;;;;;;;;;;;;;;;;;main code goes here;;;;;;;;;;;;;;;;;;;;;
-	
-	call scan_str
-	mov rsi,str
-	call str_len
+	call scan_int
+	mov rdi,arr
+	mov rcx,rax
+	call scan_arr
+	mov rsi,rdi
 	push rsi
 	dec rcx
-	push 0
 	push rcx
-	push 1
-	call pal
+	push 0
+	call max
 	pop rax
 	call print_int
+	
 	
 	
 	
@@ -55,50 +56,40 @@ main:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;define functions here;;;;;;;;;;;;;;;;;;;
 
-
-pal:
+max:
 	push rbp
 	mov rbp,rsp
 	
-	mov rsi,[rbp+40]
-	mov rax,[rbp+32]
-	mov rbx,[rbp+24]
-	mov rdx,[rbp+16]
+	mov rsi,[rbp+32]
+	mov rcx,[rbp+24]
 	
+	
+	cmp rcx,0
+	je base
+	
+	push rsi
+	dec rcx
+	push rcx
+	push 0
+	call max
+	pop rbx
+	pop rcx
+	inc rcx
+	pop rsi
+	call get_arr_i
 	cmp rax,rbx
-	jg return
+	jg base
+	mov[rbp+16],rbx
 	
-	push rax
-	push rbx
-	add rax,rsi
-	add rbx,rsi
-	mov al,[rax]
-	mov bl,[rbx]
-	cmp al,bl
-	je cont
-	
-	mov qword[rbp+16],0
 	
 	jmp return
-	cont:
-	pop rbx
-	pop rax
-	push rsi
-	inc rax
-	push rax
-	dec rbx
-	push rbx
-	push 1
-	call pal
-	pop rax
-	
+	base:
+	call get_arr_i
 	mov qword[rbp+16],rax
-	
-	
 	return:
 	leave
 	ret
-
+	
 
 
 

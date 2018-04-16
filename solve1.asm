@@ -12,6 +12,7 @@ str: resb 100
 
 SECTION .text
 
+
 global main		
 main:				
 	push rbp
@@ -21,95 +22,57 @@ main:
 	mov rsi,str
 	call str_len
 	dec rcx
-	push rsi
-	push 0
-	push rcx
-	mov rax,0
+	mov rdx,0 
+	mov rbx,0
 	mov al,[rsi]
-	push rax
-	push 0
-	call comp
+	lop:
+	cmp rbx,rcx
+	jg end
+	
+	mov ah,[rsi]
+	cmp al,ah
+	
+	jne else
+	
+	inc rdx
+	
+	inc rbx
+	inc rsi
+	jmp endif
+	else:
+	
+	call print_char
+	
+	mov rax,rdx
+	call print_int
+	
+	mov ah,[rsi]
+	mov al,ah
+	mov rdx,1
+	
+	inc rbx
+	inc rsi
+	
+	
+	endif:
+	
+	jmp lop
+	end:
+	
+	call print_char
+	
+	mov rax,rdx
+	call print_int
+	
+	mov al,10
+	call print_char
+	
 		
 	leave
 	ret
 	
+	
 
-
-
-comp:
-	push rbp
-	mov rbp,rsp
-	
-	mov rsi,[rbp+48]
-	mov rbx,[rbp+40]
-	mov rcx,[rbp+32]
-	mov rax,[rbp+24]
-	mov rdx,[rbp+16]
-	
-	cmp rbx,rcx
-	jle skip
-	call print_char
-	mov rax,rdx
-	call print_int
-	mov al,10
-	call print_char
-	
-	jmp return
-	skip:
-	
-	add rsi,rbx
-	mov ah,[rsi]
-	cmp ah,al
-	jne else
-	
-	mov rax,0
-	mov al,[rsi]
-	mov rsi,[rbp+48]
-	push rsi
-	inc rbx
-	push rbx
-	push rcx
-	push rax
-	inc rdx
-	push rdx
-	call comp
-	jmp return
-	
-	
-	else:
-	
-	mov rsi,[rbp+48]
-	mov rbx,[rbp+40]
-	mov rcx,[rbp+32]
-	mov rax,[rbp+24]
-	mov rdx,[rbp+16]
-	
-	call print_char
-	mov rax,rdx
-	call print_int
-	
-	
-	add rsi,rbx
-	mov rax,0
-	mov al,[rsi]
-	
-	mov rsi,[rbp+48]
-	push rsi
-	
-	inc rbx
-	push rbx
-	push rcx
-	push rax
-	push 1
-	call comp
-	
-	
-	
-	return:
-	leave
-	ret
-
-	
 
 
 ;returns string pointed by rsi length on rcx	
